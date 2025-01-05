@@ -1,0 +1,7 @@
+{
+    "markdown.copyFiles.destination": {
+        "**.*.md": "${documentDirName}/img/${fileName"
+    },
+    "markdown-image.local.referencePath": "",
+    "markdown-image.local.path": "./img"
+}
