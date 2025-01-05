@@ -4,9 +4,10 @@
 ## 使用
 在脚本管理器中启用该脚本，脚本的选项中可以配制正则。  
 手机上，以X浏览器为例子，如图所示，可以添加正则以屏蔽你想屏蔽的网站域名。如果你不知道正则是什么东西，直接把域名输入进去就行了。  
-![alt text](img/image.png)
-![alt text](img/image-1.png)
-![alt text](img/image-2.png)
+<img src="img/image.png" alt="alt text" height="720">
+<img src="img/image-1.png" alt="alt text" height="720">
+<img src="img/image-2.png" alt="alt text" height="720">
+
 ## 注意
 1. 移动端上没有添加按钮，如果没有脚本选项的浏览器无法打开配置页面。比如via浏览器可以使用IPad的UA或者桌面UA以获得正常的体验。  
 
