@@ -31,7 +31,7 @@ TypeError: e.getElementsByTagName(...)[0] is undefined
 ```
 windows我没有测试，因为我主要使用Chrome。  
 由于由于firefox之前就出现了系统代理不生效的问题，因此我首先怀疑是firefox的问题。  
-> 最简单的办法直接用chrome。毕竟我对firefox没有什么特殊情感。  「方案选单」
+> 最简单的办法直接用chrome。毕竟我对firefox没有什么特殊情感。或者，你可以使用dev版本或者nightly版本。  
 
 
 ## 其他（不重要）x
