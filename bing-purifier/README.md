@@ -25,7 +25,7 @@
 1. 国内版无法使用-site来屏蔽站点。  
 > 如果不使用-site，而是使用-csdn，是可以过滤的，但是这样会误伤一些谩骂csdn的友军，因此作罢。  
 2. PC上国际版无法通过脚本选项打开配置页面（弹窗），手机上似乎没有影响。  
-3. linux端的火狐浏览器存在一些问题，比如我先打开新标签页acfun.cn，然后从地址栏搜索csdn，这时会发现本脚本x未生效，提示
+3. linux端的火狐浏览器（firefox 133）存在一些问题，比如我先打开新标签页acfun.cn，然后从地址栏搜索csdn，这时会发现本脚本x未生效，提示
 ```
 TypeError: e.getElementsByTagName(...)[0] is undefined
 ```
