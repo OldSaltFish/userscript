@@ -3,6 +3,7 @@
   "type": "module",
   "devDependencies": {
     "@types/bun": "latest",
+    "@types/jquery": "^3.5.32",
     "@types/tampermonkey": "^5.0.4"
   },
   "peerDependencies": {

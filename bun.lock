@@ -5,6 +5,7 @@
       "name": "userscript",
       "devDependencies": {
         "@types/bun": "latest",
+        "@types/jquery": "^3.5.32",
         "@types/tampermonkey": "^5.0.4",
       },
       "peerDependencies": {
@@ -15,7 +16,11 @@
   "packages": {
     "@types/bun": ["@types/bun@1.2.0", "https://registry.npmmirror.com/@types/bun/-/bun-1.2.0.tgz", { "dependencies": { "bun-types": "1.2.0" } }, "sha512-5N1JqdahfpBlAv4wy6svEYcd/YfO2GNrbL95JOmFx8nkE6dbK4R0oSE5SpBA4vBRqgrOUAXF8Dpiz+gi7r80SA=="],
 
+    "@types/jquery": ["@types/jquery@3.5.32", "https://registry.npmmirror.com/@types/jquery/-/jquery-3.5.32.tgz", { "dependencies": { "@types/sizzle": "*" } }, "sha512-b9Xbf4CkMqS02YH8zACqN1xzdxc3cO735Qe5AbSUFmyOiaWAbcpqh9Wna+Uk0vgACvoQHpWDg2rGdHkYPLmCiQ=="],
+
     "@types/node": ["@types/node@22.10.9", "https://registry.npmmirror.com/@types/node/-/node-22.10.9.tgz", { "dependencies": { "undici-types": "~6.20.0" } }, "sha512-Ir6hwgsKyNESl/gLOcEz3krR4CBGgliDqBQ2ma4wIhEx0w+xnoeTq3tdrNw15kU3SxogDjOgv9sqdtLW8mIHaw=="],
+
+    "@types/sizzle": ["@types/sizzle@2.3.9", "https://registry.npmmirror.com/@types/sizzle/-/sizzle-2.3.9.tgz", {}, "sha512-xzLEyKB50yqCUPUJkIsrVvoWNfFUbIZI+RspLWt8u+tIW/BetMBZtgV2LY/2o+tYH8dRvQ+eoPf3NdhQCcLE2w=="],
 
     "@types/tampermonkey": ["@types/tampermonkey@5.0.4", "https://registry.npmmirror.com/@types/tampermonkey/-/tampermonkey-5.0.4.tgz", {}, "sha512-HEJ0O5CkDZSwIgd9Zip4xM8o7gZC8zBmJuH1YEXNINIC+aCWEXD10pnpo3NQG5IWHx+Xr4fMSGq1jqeKXH2lpA=="],
 
