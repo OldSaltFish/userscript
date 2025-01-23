@@ -1,6 +1,8 @@
 # userscript
 浏览器脚本。
-
+## 使用
+首先你需要安装一个脚本管理器，比如流行的篡改猴（tampermonkey）、暴力猴（ViolentMonkey）或者脚本猫（ScriptCat）。  
+在此之后，在下面的列表处，我给出了相应的greasyfork链接，只需要对应安装即可。  
 ## 列表
 ### 必应净化
 用于去除垃圾搜索结果的脚本。
