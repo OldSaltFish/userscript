@@ -103,7 +103,7 @@
   function blockSearchResult(){
     document.addEventListener('DOMContentLoaded', () => {
       removeList(regex)
-      removeOthers
+      removeOthers()
     })
     function removeList(regex) {
       regex = regex.map(el => {

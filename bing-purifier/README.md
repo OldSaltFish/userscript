@@ -44,6 +44,9 @@ windows我没有测试，因为我主要使用Chrome。
 - 1.1.0
 > 屏蔽豆包的广告
 ![alt text](img/image-3.png)
+![alt text](img/image-9.png)
+顶上一个底下一个，字节还是有钱，铺天盖地的广告（为什么搞个小唐人图标？）。  
+![alt text](img/image-10.png)
 
 > 添加过滤器的开关按钮
 ![alt text](img/image-6.png)
@@ -51,6 +54,7 @@ windows我没有测试，因为我主要使用Chrome。
 
 > 适配移动端Bing，按钮直接出现在界面上，因此支持那些没有`油猴选项`的浏览器（比如Via）。  
 ![alt text](img/image-8.png)
+弹窗尽量地仿照了Swal2，因为既不想继续使用swal2，又不想改原来的代码。  
 
 ## 其他（不重要）
 1. 脚本的头像是妮侬，妮侬可爱捏。  
