@@ -14,3 +14,6 @@ https://greasyfork.org/zh-CN/scripts/521549-%E5%BF%85%E5%BA%94%E5%87%80%E5%8C%96
 ```shell
 bun install
 ```
+
+### 注意
+1. greasyfork的webhook配置没生效，如果想要立即更新，应当到greasyfork手动点击立即更新。  
