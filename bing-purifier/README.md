@@ -43,17 +43,20 @@ windows我没有测试，因为我主要使用Chrome。
 - @next...
 - 1.1.0
 > 屏蔽豆包的广告
-![alt text](img/image-3.png)
-![alt text](img/image-9.png)
+![alt text](https://s3.bmp.ovh/imgs/2025/01/26/474e7a3f01d119a6.png)
+![图 0](https://s3.bmp.ovh/imgs/2025/01/26/ce3434ed915c022b.png)
+
 顶上一个底下一个，字节还是有钱，铺天盖地的广告（为什么搞个小唐人图标？）。  
-![alt text](img/image-10.png)
+![图 1](https://s3.bmp.ovh/imgs/2025/01/26/eed2ab1b7c6a7a3e.png)  
 
 > 添加过滤器的开关按钮
-![alt text](img/image-6.png)
-![alt text](img/image-7.png)
+![图 2](https://s3.bmp.ovh/imgs/2025/01/26/1123951b2f3877df.png)  
+
+
+![图 3](https://s3.bmp.ovh/imgs/2025/01/26/474e7a3f01d119a6.png)  
 
 > 适配移动端Bing，按钮直接出现在界面上，因此支持那些没有`油猴选项`的浏览器（比如Via）。  
-![alt text](img/image-8.png)
+![![alt text](img/image-8.png) 1](https://s3.bmp.ovh/imgs/2025/01/26/1a8828fc4f9e10fb.png)  
 弹窗尽量地仿照了Swal2，因为既不想继续使用swal2，又不想改原来的代码。  
 
 - 1.1.1
@@ -74,4 +77,4 @@ windows我没有测试，因为我主要使用Chrome。
 可以进入下面的网页进行搜索，就能进入移动端网页。  
 https://cn.bing.com/?mid=10006  
 或者，到bing.com，找到下面移动端的按钮。  
-![alt text](img/image-5.png)
+![![alt text](img/image-5.png) 1](https://s3.bmp.ovh/imgs/2025/01/26/1a8828fc4f9e10fb.png) 
