@@ -4,9 +4,12 @@
 ## 使用
 在脚本管理器中启用该脚本，脚本的选项中可以配制正则。  
 手机上，以X浏览器为例子，如图所示，可以添加正则以屏蔽你想屏蔽的网站域名。如果你不知道正则是什么东西，直接把域名输入进去就行了。  
-<img src="img/image.png" alt="alt text" height="720">
-<img src="img/image-1.png" alt="alt text" height="720">
-<img src="img/image-2.png" alt="alt text" height="720">
+<img src="https://s3.bmp.ovh/imgs/2025/01/26/d7c49c7a6134fd3a.png" alt="img/image.png" height="720">
+
+<img src="https://s3.bmp.ovh/imgs/2025/01/26/b5a9645ca61c7c07.png" alt="img/image-1.png" height="720">
+
+<img src="https://s3.bmp.ovh/imgs/2025/01/26/b02099605de5f9b3.png" alt="img/image-2.png" height="720">
+
 
 ## 注意
 1. 移动端上没有添加按钮，如果没有脚本选项的浏览器无法打开配置页面。比如via浏览器可以使用IPad的UA或者桌面UA以获得正常的体验。  
@@ -23,7 +26,7 @@
 比如输入如下网址，也许就不会重定向到cn。  
 `www.bing.com?1`
 有时，虽然网址是www，但是页面依旧和国内类似，你可以尝试将bing的语言改成英文
-![alt text](img/image-4.png)
+![![alt text](img/image-4.png) 1](https://s3.bmp.ovh/imgs/2025/01/26/1a8828fc4f9e10fb.png)
 有箭头所指向的Copilot肯定就是国际版了。  
 ## 存在的问题
 1. ~~国内版无法使用-site来屏蔽站点。现在可以了~~  
