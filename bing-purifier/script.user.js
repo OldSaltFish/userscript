@@ -5,7 +5,7 @@
 // @match       https://www2.bing.com/search*
 // @match       https://cn.bing.com/search?*
 // @run-at      document-start
-// @version     1.1.0
+// @version     1.1.1
 // @author      魂祈梦
 // @description 去除多余的搜索建议和低质量搜索结果，2024/1/23 21:51:58
 // @icon        https://s11.ax1x.com/2024/01/24/pFetIiR.png
@@ -161,8 +161,8 @@
         count++
       }
       console.log('去除deepDesk(搜索bing时出现词典地图之类的同类产品)');
-      // 去除推荐
-      let recommandList = document.querySelectorAll('#b_pole,.b_algoRCAggreFC,.rpr_light,.b_algospacing,.b_ad')
+      // 去除各种乱七八糟的搜索结果（推荐搜索、广告、推荐回答等）
+      let recommandList = document.querySelectorAll('#b_pole,.b_algoRCAggreFC,.rpr_light,.b_algospacing,.b_ad,.b_ans,#inline_rs')
       recommandList.forEach(item => {
         item.remove()
         count++
@@ -451,13 +451,6 @@
       static styles = css`
         :host {
             float: left;
-        }
-        
-        @media (max-width: 768px) {
-            :host {
-                max-width: 90%;
-                margin: 10px auto;
-            }
         }
       `
       render() {
