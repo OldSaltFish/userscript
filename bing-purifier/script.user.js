@@ -279,7 +279,8 @@
   // 依赖于lit的页面构建以及修改，应当写在该函数中
   // 去除广告等功能和UI构建并无关系，因此不应该阻塞运行
   async function initGUI(){
-    let { LitElement, html, css } = await import('https://blog-static.cnblogs.com/files/blogs/806667/lit-core.min.js')
+    // 外站不能引用博客园的文件，因此还是用jsdelivr的链接，后续看情况可以换CloudFlare。（又拍云还不如jsdelivr）
+    let { LitElement, html, css } = await import('https://cdn.jsdelivr.net/gh/lit/dist@3/core/lit-core.min.js')
     class SettingButton extends LitElement {
       open() {
         class FilterSwitcher extends LitElement {
