@@ -5,7 +5,7 @@
 // @match       https://www2.bing.com/search*
 // @match       https://cn.bing.com/search?*
 // @run-at      document-start
-// @version     1.2.0
+// @version     1.2.1
 // @author      魂祈梦
 // @description 去除多余的搜索建议和低质量搜索结果，2024/1/23 21:51:58
 // @icon        https://s11.ax1x.com/2024/01/24/pFetIiR.png
@@ -66,7 +66,28 @@
       console.log('菜单选项被点击')
     });
     GM_registerMenuCommand('列表合并', function () {
-      window.open('https://listmerge.dreamsoul.cn/', '_blank');
+      // window.open('https://listmerge.dreamsoul.cn/', '_blank');
+      function openLinkInNewTab(url) {
+        // 创建 <a> 元素
+        const link = document.createElement('a');
+      
+        // 设置 <a> 元素的属性
+        link.href = url;
+        link.target = '_blank';
+        link.style.display = 'none';
+      
+        // 将 <a> 元素添加到文档中
+        document.body.appendChild(link);
+      
+        // 模拟点击事件
+        link.click();
+      
+        // 点击后立即删除 <a> 元素
+        document.body.removeChild(link);
+      }
+      
+      // 示例调用
+      openLinkInNewTab('https://listmerge.dreamsoul.cn/');
     });
   }
   /**
