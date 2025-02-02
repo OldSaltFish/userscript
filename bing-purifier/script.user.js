@@ -5,7 +5,7 @@
 // @match       https://www2.bing.com/search*
 // @match       https://cn.bing.com/search?*
 // @run-at      document-start
-// @version     1.1.1
+// @version     1.2.0
 // @author      魂祈梦
 // @description 去除多余的搜索建议和低质量搜索结果，2024/1/23 21:51:58
 // @icon        https://s11.ax1x.com/2024/01/24/pFetIiR.png
@@ -64,6 +64,9 @@
     GM_registerMenuCommand('屏蔽域名列表设置', function () {
       settingGUI()
       console.log('菜单选项被点击')
+    });
+    GM_registerMenuCommand('列表合并', function () {
+      window.open('https://listmerge.dreamsoul.cn/', '_blank');
     });
   }
   /**
