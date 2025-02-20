@@ -5,7 +5,7 @@
 // @match       https://www2.bing.com/search*
 // @match       https://cn.bing.com/search?*
 // @run-at      document-start
-// @version     1.2.1
+// @version     1.2.2
 // @author      魂祈梦
 // @description 去除多余的搜索建议和低质量搜索结果，2024/1/23 21:51:58
 // @icon        https://s11.ax1x.com/2024/01/24/pFetIiR.png
@@ -70,22 +70,22 @@
       function openLinkInNewTab(url) {
         // 创建 <a> 元素
         const link = document.createElement('a');
-      
+
         // 设置 <a> 元素的属性
         link.href = url;
         link.target = '_blank';
         link.style.display = 'none';
-      
+
         // 将 <a> 元素添加到文档中
         document.body.appendChild(link);
-      
+
         // 模拟点击事件
         link.click();
-      
+
         // 点击后立即删除 <a> 元素
         document.body.removeChild(link);
       }
-      
+
       // 示例调用
       openLinkInNewTab('https://listmerge.dreamsoul.cn/');
     });
@@ -124,11 +124,14 @@
     }
   }
 
-  function blockSearchResult(){
-    document.addEventListener('DOMContentLoaded', () => {
-      removeList(regex)
-      removeOthers()
-    })
+  function blockSearchResult() {
+    window.onload = ()=>{
+      // bing可能有脚本是onload之后才执行的，因此我们使用定时器执行代码，保证广告加载出来再去除。  
+      setTimeout(()=>{
+        removeList(regex)
+        removeOthers()
+      },200)
+    }
     function removeList(regex) {
       regex = regex.map(el => {
         // 去除首尾的斜杠
@@ -302,7 +305,7 @@
   }
   // 依赖于lit的页面构建以及修改，应当写在该函数中
   // 去除广告等功能和UI构建并无关系，因此不应该阻塞运行
-  async function initGUI(){
+  async function initGUI() {
     // 外站不能引用博客园的文件，因此还是用jsdelivr的链接，后续看情况可以换CloudFlare。（又拍云还不如jsdelivr）
     let { LitElement, html, css } = await import('https://cdn.jsdelivr.net/gh/lit/dist@3/core/lit-core.min.js')
     class SettingButton extends LitElement {
@@ -324,7 +327,7 @@
                   <h2 style="margin-top:0;">域名过滤设置</h2>
                   <button class="close-btn" @click=${() => this.remove()}>×</button>
                 </div>
-                ${this.filterList.map((item,index) => html`
+                ${this.filterList.map((item, index) => html`
                   <div class="filter-item">
                     <label>
                       <input type="checkbox" 
