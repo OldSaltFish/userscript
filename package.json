@@ -2,12 +2,12 @@
   "name": "userscript",
   "type": "module",
   "devDependencies": {
-    "@types/bun": "latest",
     "@types/jquery": "^3.5.32",
     "@types/tampermonkey": "^5.0.4",
     "lit": "^3.2.1"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
-  }
+  },
+  "packageManager": "pnpm@9.4.0+sha1.9217c800d4ab947a7aee520242a7b70d64fc7638"
 }
