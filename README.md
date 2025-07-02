@@ -10,6 +10,20 @@ https://greasyfork.org/zh-CN/scripts/521549-%E5%BF%85%E5%BA%94%E5%87%80%E5%8C%96
 
 ### 鼠标手势滚轮
 左右键一起按，像触摸板一样使用鼠标滚轮。
+https://greasyfork.org/zh-CN/scripts/538393-%E9%BC%A0%E6%A0%87%E6%91%87%E6%BB%9A%E6%89%8B%E5%8A%BF%E6%BB%9A%E5%8A%A8%E6%8E%A7%E5%88%B6
+
+## 脚本网站
+1. 油叉 目前被gank了国内无法访问。  
+https://greasyfork.org/
+- 搜脚本加速站。提供油叉加速。  
+https://soujiaoben.org/#/
+- https://gf.qytechs.cn/zh-CN 镜像站
+2. 油猴中文网 没用过
+https://scriptcat.org/zh-CN/search
+- userscript.zone 能够直接访问，但是不提供镜像访问。（国内能搜索但是不能安装和查看详情）
+https://www.userscript.zone
+- openuserjs 相比于油叉更冷门，脚本更少，不推荐。
+
 ## 开发
 ~~使用Bun作为构建工具，虽是如此，只是为了安装油猴之类的的类型提示而已，用不到构建的功能。因此，我删除了index.ts文件，这个项目并不需要入口文件，因为他是多个油猴脚本的共同仓库。~~
 不再使用bun，换成pnpm。  
