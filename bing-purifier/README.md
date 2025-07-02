@@ -1,6 +1,7 @@
 # 必应净化
-https://github.com/OldSaltFish/userscript  
 为bing提供搜索自动过滤功能。  
+开源地址：https://github.com/OldSaltFish/userscript  
+gitee: https://gitee.com/oldsaltfish/userscript
 
 ## 使用
 在脚本管理器中启用该脚本，脚本的选项中可以配制正则。  
