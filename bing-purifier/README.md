@@ -1,4 +1,5 @@
 # 必应净化
+https://github.com/OldSaltFish/userscript  
 为bing提供搜索自动过滤功能。  
 
 ## 使用

@@ -2,10 +2,10 @@
 // @name        必应净化
 // @namespace   oldsaltfish@foxmail.com
 // @match       https://www.bing.com/search*
-// @match       https://www2.bing.com/search*
+// @match       https://www*.bing.com/search*
 // @match       https://cn.bing.com/search?*
 // @run-at      document-start
-// @version     1.2.3
+// @version     1.2.4
 // @author      魂祈梦
 // @description 去除多余的搜索建议和低质量搜索结果，2024/1/23 21:51:58
 // @icon        https://s11.ax1x.com/2024/01/24/pFetIiR.png
