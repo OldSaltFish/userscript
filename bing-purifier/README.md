@@ -1,6 +1,6 @@
 # 必应净化
 为bing提供搜索自动过滤功能。  
-开源地址：https://github.com/OldSaltFish/userscript  
+开源地址: https://github.com/OldSaltFish/userscript  
 gitee: https://gitee.com/oldsaltfish/userscript
 
 ## 使用
