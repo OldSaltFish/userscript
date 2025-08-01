@@ -1,0 +1,12 @@
+{
+  "name": "mikanani-recorder",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "rsbuild build",
+    "dev": "rsbuild dev --open",
+    "preview": "rsbuild preview",
+    "release": "rsbuild build && pwsh -file ../../scriptsForDev/release.ps1"
+  }
+}
