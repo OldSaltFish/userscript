@@ -1,0 +1,3 @@
+[submodule "packages/mikanani-recorder/mikan-tierMaker"]
+	path = packages/mikanani-recorder/mikan-tierMaker
+	url = git@github.com:OldSaltFish/Anime-TierMaker.git
