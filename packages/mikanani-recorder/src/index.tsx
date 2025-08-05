@@ -1,77 +1,15 @@
+import { For, createEffect, createSignal, onMount } from 'solid-js';
 import { render } from 'solid-js/web';
-import { createSignal, onMount, For } from 'solid-js';
 import 'uno.css';
-import { STORE_NAME } from './const';
-
-// 获取当前页面的番剧ID
-const getBangumiId = () => {
-  const match = location.pathname.match(/\/Home\/Bangumi\/(\d+)/);
-  return match ? match[1] : null;
-};
-
-// 获取番剧标题
-const getBangumiTitle = () => {
-  const title = document.title;
-  const match = title.match(/Mikan Project - (.+)/);
-  return match ? match[1] : '';
-};
-const getBangumiIdFromHref = (href: string) => {
-  const match = href.match(/\/Home\/Bangumi\/(\d+)/);
-  return match ? match[1] : null;
-};
-
-interface BangumiInfo {
-  id: string;
-  title: string;
-  rating: number;
-  episodeCount: number;
-  coverBase64?: string;
-}
-
-interface StorageData {
-  bangumis: BangumiInfo[];
-  isCollapsed: boolean;
-}
-
-
-const RATING_LABELS = ['不想看', '不好看', '勉强能看', '一般', '好看', '神作'];
-
-// 从GM存储获取所有番剧数据
-const getStorageData = (): StorageData => {
-  const data: StorageData = GM_getValue(STORE_NAME);
-  return data || { bangumis: [], isCollapsed: false };
-};
-
-// 保存番剧数据
-const saveBangumiInfo = async (info: BangumiInfo) => {
-  const data = getStorageData();
-  let existData = data.bangumis.find(item => item.id = info.id);
-  if (existData) {
-    Object.assign(existData, info);
-  } else {
-    data.bangumis.push(info);
-  }
-  await GM_setValue(STORE_NAME, data);
-};
-
-// 保存全局折叠状态
-const saveCollapsedState = async (isCollapsed: boolean) => {
-  const data = await getStorageData();
-  data.isCollapsed = isCollapsed;
-  await GM_setValue(STORE_NAME, data);
-};
-
-// 获取单个番剧信息
-const getBangumiInfo = async (id: string): Promise<BangumiInfo | null> => {
-  const data = await getStorageData();
-  return data.bangumis.find(item => item.id === id) || null;
-};
+import { toast } from './components/Toast';
+import { RATING_LABELS, STORE_NAME } from './const';
+import type { BangumiInfo, StorageData } from './types';
+import { getBangumiIdFromHref, getBangumiInfo, getStorageData, saveBangumiInfo } from './utils';
+import Bangumi from './views/Bangumi';
 
 // 番剧评分组件
-const BangumiRating = (props: { anElement: Element }) => {
-  const [rating, setRating] = createSignal(0);
-
-
+const BangumiRating = (props: { anElement: HTMLElement }) => {
+  const [rating, setRating] = createSignal(999);
 
   onMount(async () => {
     const href = (props.anElement as HTMLAnchorElement).href;
@@ -79,10 +17,32 @@ const BangumiRating = (props: { anElement: Element }) => {
     if (!id) return;
 
     const info = await getBangumiInfo(id);
-    if (info?.rating) {
+    if (info && info.rating !== undefined) {
       setRating(info.rating);
     }
   });
+  createEffect(
+    () => {
+      if (rating() <= 1) {
+        const li = props.anElement.closest('li');
+        if (li) {
+          li.style.display = 'none';
+          const ul = li.parentElement;
+          if (ul) {
+            const allHidden = Array.from(ul.children).every(
+              child => (child as HTMLElement).style.display === 'none'
+            );
+            if (allHidden) {
+              const anBox = ul.closest('.an-box');
+              if (anBox) {
+                (anBox as HTMLElement).style.display = 'none';
+              }
+            }
+          }
+        }
+      }
+    }
+  );
 
   const handleRatingClick = async (newRating: number) => {
     const href = (props.anElement as HTMLAnchorElement).href;
@@ -116,89 +76,7 @@ const BangumiRating = (props: { anElement: Element }) => {
   );
 };
 
-// 浮动窗口组件
-const FloatingWindow = () => {
-  const bangumiId = getBangumiId();
-  if (!bangumiId) return null;
 
-  const [value, setValue] = createSignal(0);
-  const [isCollapsed, setIsCollapsed] = createSignal(false);
-  const [title, setTitle] = createSignal('');
-
-  onMount(async () => {
-    const data = await getStorageData();
-    const info = await getBangumiInfo(bangumiId);
-    if (info) {
-      setValue(info.episodeCount);
-      setTitle(info.title);
-    } else {
-      setTitle(getBangumiTitle());
-    }
-    setIsCollapsed(data.isCollapsed);
-  });
-
-  const handleSave = () => {
-    saveBangumiInfo({
-      id: bangumiId,
-      title: title(),
-      episodeCount: value(),
-      rating: 0
-    });
-  };
-
-  return (
-    <div
-      class={`fixed top-50 right-4 bg-white shadow-lg rounded-lg p-4 transition-all duration-300 ${isCollapsed() ? 'w-12 h-12' : 'w-64'
-        }`}
-    >
-      <button
-        class="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
-        onClick={() => {
-          const newState = !isCollapsed();
-          setIsCollapsed(newState);
-          saveCollapsedState(newState);
-        }}
-      >
-        {isCollapsed() ? '展开' : '收起'}
-      </button>
-
-      {!isCollapsed() && (
-        <div class="mt-4">
-          <div class="text-center font-bold mb-2 truncate" title={title()}>
-            {title()}
-          </div>
-          <div class="flex items-center justify-between">
-            <button
-              class="w-8 h-8 bg-gray-200 rounded-full"
-              onClick={() => setValue(v => Math.max(0, v - 1))}
-            >
-              -
-            </button>
-            <input
-              type="number"
-              min="0"
-              value={value()}
-              onInput={(e) => setValue(parseInt(e.currentTarget.value) || 0)}
-              class="w-20 text-center border rounded"
-            />
-            <button
-              class="w-8 h-8 bg-gray-200 rounded-full"
-              onClick={() => setValue(v => v + 1)}
-            >
-              +
-            </button>
-          </div>
-          <button
-            class="mt-4 w-full bg-blue-500 text-white rounded py-2 hover:bg-blue-600"
-            onClick={handleSave}
-          >
-            保存
-          </button>
-        </div>
-      )}
-    </div>
-  );
-};
 const IndexPanel = () => {
   if (location.pathname !== '/') return null;
   const [showPanel, setShowPanel] = createSignal(false);
@@ -364,35 +242,54 @@ const IndexPanel = () => {
     </>
   )
 }
+// 主页加载时处理番剧链接
+const homePageLoadedHandler = () => {
+  // 获取所有番剧链接元素
+  const anElements: NodeListOf<HTMLElement> = document.querySelectorAll('.an-text');
+  anElements.forEach(el => {
+    const li = el.closest('li');
+    if (li) {
+      li.style.position = 'relative';
+      render(() => <BangumiRating anElement={el} />, li);
+    }
+  });
+}
+
+const createSwitchListener = () => {
+  // 配置观察选项
+  const config = {
+    childList: true, // 监听子节点变动
+  };
+  // 创建并启动观察者
+  const observer = new MutationObserver((mutationsList: MutationRecord[]) => {
+    const mutation = mutationsList[0];
+    if (mutation.addedNodes.length > 1 && mutation.removedNodes.length > 1) {
+      homePageLoadedHandler();
+    }
+  });
+  const target = document.querySelector('#sk-body');
+  if (!target) return;
+  observer.observe(target, config);
+}
+
 // 由于只有App是必定加载的，因此组件是否出现的逻辑只能放在App内部
 // 而FloatingWindow由于是fixed浮动，因此直接放里面吧不要紧。  
 const App = () => {
   onMount(() => {
-    console.log('GM_getValue(STORE_NAME)', GM_getValue(STORE_NAME));
     // 检查是否在主页
     if (location.pathname === '/') {
-      // 获取所有番剧链接元素
-      const anElements = document.querySelectorAll('.an-text');
-      anElements.forEach(el => {
-        const li = el.closest('li');
-
-        if (li) {
-          li.style.position = 'relative';
-          render(() => <BangumiRating anElement={el} />, li);
-        }
-      });
+      homePageLoadedHandler();
+      createSwitchListener();
     }
   });
 
   return (
     <div class="ds-script">
-      <FloatingWindow />
+      <Bangumi />
       <IndexPanel />
+      {toast.component()}
     </div>
   );
 };
 
-const root = document.body;
-if (root) {
-  render(() => <App />, root);
-}
+render(() => <App />, document.body);
