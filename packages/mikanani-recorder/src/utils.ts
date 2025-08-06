@@ -4,7 +4,7 @@ import type { BangumiInfo, StorageData } from "./types";
 // 从GM存储获取所有番剧数据
 export const getStorageData = (): StorageData => {
   const data: StorageData = GM_getValue(STORE_NAME);
-  return data || { bangumis: [], isCollapsed: false, blockedSubgroups: [] };
+  return data || { bangumis: [], isCollapsed: false, blockedSubgroups: [],subGroups: [] };
 };
 
 // 获取当前页面的番剧ID
@@ -36,7 +36,7 @@ export const saveBangumiInfo = (info: BangumiInfo) => {
 };
 
 // 获取单个番剧信息
-export const getBangumiInfo = async (id: string): Promise<BangumiInfo | null> => {
-  const data = await getStorageData();
+export const getBangumiInfo =  (id: string): BangumiInfo | null => {
+  const data = getStorageData();
   return data.bangumis.find(item => item.id === id) || null;
 };

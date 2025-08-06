@@ -1,39 +1,33 @@
 // 番剧页面
 
-import { createSignal, onMount, createEffect } from "solid-js";
+import { createEffect, createSignal, onMount } from "solid-js";
 import { render } from "solid-js/web";
 import { showToast } from "../components/Toast";
 import { STORE_NAME } from "../const";
-import { getBangumiId, getStorageData, getBangumiTitle, saveBangumiInfo, getBangumiInfo } from "../utils";
+import { getBangumiId, getBangumiInfo, getBangumiTitle, getStorageData, saveBangumiInfo } from "../utils";
 
 // 浮动窗口组件
 const Bangumi = () => {
     const bangumiId = getBangumiId();
     if (!bangumiId) return null;
+    // 虽然本该是只有当前页面的黑名单，但是直接使用全局的黑名单会更方便
     const [blackList, setBlackList] = createSignal<string[]>([]);
-    onMount(() => {
-        const data = getStorageData();
-        setBlackList(data.blockedSubgroups || []);
-    });
+
     const rssList = document.querySelectorAll('.subgroup-text');
-    createEffect(() => {
-        rssList.forEach(el => {
-            const name = (el.children[0] as HTMLAnchorElement).textContent;
-            if (name && blackList().includes(name)) {
-                console.log(`屏蔽了 ${name}字幕组`);
-                const parent = el.closest('.subgroup-text') as HTMLElement;
-                const broTable = parent.nextElementSibling as HTMLTableElement;
-                parent.style.display = 'none';
-                broTable.style.display = 'none';
-                // 如果列表较长，则会出现展开按钮
-                // 需要将展开按钮也隐藏
-                if (broTable.nextElementSibling && broTable.nextElementSibling.classList.contains('episode-expand')) {
-                    (broTable.nextElementSibling as HTMLElement).style.display = 'none';
-                }
-            }
-        });
-    })
-    const copyButton = (props: { text: string }) => {
+    // 初始化+响应（初始化获取的是列表，而响应则是按钮触发，为了使得二者逻辑接近，应该使用数据驱动）
+    // 然而视图是目标网页的，并不是直接响应式，这就导致数据和视图分离了
+    // 为了使他们联系起来，我们可以搞一个映射（然后使用兄弟选择器执行相关操作）
+    type subGroupStatus = {
+        el: HTMLElement,
+        id: string,
+        name: string,
+    }
+    // 仅用于存储当前页面获取的信息（临时状态）
+    const currentPageGroups: Array<subGroupStatus> = [];
+
+    const data = getStorageData();
+    setBlackList(data.subGroups?.filter(subGroup => subGroup.isBlocked).map(subGroup => subGroup.name) || []);
+    const CopyButton = (props: { text: string }) => {
         return <button
             class="ml-8px"
             onClick={() => {
@@ -52,45 +46,125 @@ const Bangumi = () => {
             复制
         </button>
     }
-
+    // 初始渲染组件
     rssList.forEach(el => {
-        const rssEl: HTMLAnchorElement | null = el.querySelector('.mikan-rss');
-        const rssUrl = rssEl!.href;
+        const name = (el.children[0] as HTMLAnchorElement).textContent;
+        const id = (el.children[0] as HTMLAnchorElement).href.match(/\/Home\/PublishGroup\/(\d+)/)?.[1] || "";
+        if (!name) {
+            showToast("获取字幕组名称失败，脚本逻辑需要更新。");
+            return;
+        }
+        currentPageGroups.push({
+            el: el as HTMLElement, name, id
+        });
+
+
         const BlockBtn = () => {
             return <button
                 class="floating-menu-button"
                 onClick={() => {
-                    if (rssEl) {
-                        const name = (rssEl.previousElementSibling as HTMLAnchorElement).textContent as string;
-                        setBlackList([
-                            ...blackList(),
-                            name
-                        ]);
-                        GM_setValue(STORE_NAME, {
-                            ...getStorageData(),
-                            blockedSubgroups: [...(getStorageData().blockedSubgroups || []), name]
-                        });
-                        showToast("✓ 已屏蔽");
+                    const data = getStorageData();
+                    const currentIdSet = new Set(currentPageGroups.map(obj => obj.id));
+                    const existGroups = data.subGroups?.filter(subGroup => currentIdSet.has(subGroup.id)&&subGroup.isBlocked) || [];
+                    setBlackList(Array.from(new Set([
+                        ...existGroups.map(subGroup => subGroup.name),
+                        name
+                    ])));
+                    const subGroups = data.subGroups || [];
+                    const idx = subGroups.findIndex(g => g.id === id);
+                    if (idx !== -1) {
+                        subGroups[idx] = { ...subGroups[idx], isBlocked: true };
+                    } else {
+                        subGroups.push({ name, id, isBlocked: true });
                     }
+                    GM_setValue(STORE_NAME, {
+                        ...data,
+                        subGroups
+                    });
+                    showToast("✓ 已屏蔽");
                 }}
             >
                 屏蔽
             </button>
         }
+        const rssEl: HTMLAnchorElement | null = el.querySelector('.mikan-rss');
         if (rssEl) {
-            const btn = document.createElement('span');
-            render(() => <BlockBtn />, btn);
-            render(() => copyButton({ text: rssUrl }), btn);
-            rssEl.after(btn);
+            const rssUrl = rssEl.href;
+            const actionArea = document.createElement('span');
+            render(() => <BlockBtn />, actionArea);
+            render(() => <CopyButton text={rssUrl} />, actionArea);
+            rssEl.after(actionArea);
         }
     });
+
+    const leftList = document.querySelectorAll('.leftbar-item') as NodeListOf<HTMLElement>;
+    leftList.forEach(el => {
+        el.style.position = 'relative';
+        const name = el.querySelector('.subgroup-name')?.textContent;
+        if (!name) return;
+        const ShowSubGroupBtn = () => {
+            return <span class={`absolute left-0 text-xl mt-8px cursor-pointer ${blackList().includes(name) ? 'inline' : 'hidden'}`} onClick={() => {
+                const data = getStorageData();
+                // 直接把相关值置为未屏蔽
+                const currentIdSet = new Set(currentPageGroups.map(obj => obj.id));
+                const existGroups = data.subGroups?.filter(subGroup => currentIdSet.has(subGroup.id)&&subGroup.isBlocked) || [];
+                setBlackList(
+                    existGroups.map(subGroup => subGroup.name).filter(n => n !== name)
+                );
+                const subGroups = data.subGroups || [];
+                const group = data.subGroups?.find(subGroup => subGroup.name === name);
+                if(!group){
+                    showToast("数据异常，无法移除屏蔽");
+                    return;
+                }
+                group.isBlocked = false;
+                GM_setValue(STORE_NAME, {
+                    ...data,
+                    subGroups
+                });
+                showToast("✓ 已移除屏蔽");
+            }} title="点击取消屏蔽">🧿</span>
+        }
+        render(() => <ShowSubGroupBtn />, el);
+        // if (name && blackList().includes(name)) {
+        //     el.style.display = 'none';
+        // } else {
+        //     el.style.display = '';
+        // }
+    });
+    // 监听黑名单列表并更新视图
+    createEffect(() => {
+        // 遍历所有字幕组，根据是否在黑名单中决定显示或隐藏
+        rssList.forEach(el => {
+            const name = (el.children[0] as HTMLAnchorElement).textContent;
+            if (name) {
+                const parent = el.closest('.subgroup-text') as HTMLElement;
+                const broTable = parent.nextElementSibling as HTMLTableElement;
+                const isBlocked = blackList().includes(name);
+
+                // 包含在黑名单中则隐藏，不包含则显示
+                const displayStyle = isBlocked ? 'none' : '';
+                parent.style.display = displayStyle;
+                broTable.style.display = displayStyle;
+
+                // 如果列表较长，则会出现展开按钮
+                // 需要将展开按钮也隐藏或显示
+                if (broTable.nextElementSibling && broTable.nextElementSibling.classList.contains('episode-expand')) {
+                    (broTable.nextElementSibling as HTMLElement).style.display = displayStyle;
+                }
+            }
+        });
+
+    })
+
+
     const [value, setValue] = createSignal(0);
     const [isCollapsed, setIsCollapsed] = createSignal(false);
     const [title, setTitle] = createSignal('');
 
-    onMount(async () => {
-        const data = await getStorageData();
-        const info = await getBangumiInfo(bangumiId);
+    onMount(() => {
+        const data = getStorageData();
+        const info = getBangumiInfo(bangumiId);
         if (info) {
             setValue(info.episodeCount);
             setTitle(info.title);
