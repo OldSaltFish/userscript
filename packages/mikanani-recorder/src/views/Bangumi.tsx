@@ -4,15 +4,29 @@ import { createEffect, createSignal, onMount } from "solid-js";
 import { render } from "solid-js/web";
 import { showToast } from "../components/Toast";
 import { STORE_NAME } from "../const";
-import { getBangumiId, getBangumiInfo, getBangumiTitle, getStorageData, saveBangumiInfo } from "../utils";
+import { getBangumiId, getBangumiInfo, getBangumiTitle, getMeaningfulNodes, getStorageData, saveBangumiInfo } from "../utils";
 
+const getNameAndId = (el:Element) => {
+    const titleEl = getMeaningfulNodes(el)[0];
+    let name = '';
+    let id = '';
+    if (titleEl.nodeType === Node.TEXT_NODE) {
+        name = titleEl.textContent?.trim() ?? '';
+    } else if (titleEl.nodeType == Node.ELEMENT_NODE) {
+        // 可能是a标签，也可能是div
+        name = (titleEl as HTMLElement).innerText;
+        if ((titleEl as HTMLAnchorElement)?.href) {
+            id = (titleEl as HTMLAnchorElement).href.match(/\/Home\/PublishGroup\/(\d+)/)?.[1] || "";
+        }
+    }
+    return { name, id }
+}
 // 浮动窗口组件
 const Bangumi = () => {
     const bangumiId = getBangumiId();
     if (!bangumiId) return null;
     // 虽然本该是只有当前页面的黑名单，但是直接使用全局的黑名单会更方便
     const [blackList, setBlackList] = createSignal<string[]>([]);
-
     const rssList = document.querySelectorAll('.subgroup-text');
     // 初始化+响应（初始化获取的是列表，而响应则是按钮触发，为了使得二者逻辑接近，应该使用数据驱动）
     // 然而视图是目标网页的，并不是直接响应式，这就导致数据和视图分离了
@@ -48,8 +62,7 @@ const Bangumi = () => {
     }
     // 初始渲染组件
     rssList.forEach(el => {
-        const name = (el.children[0] as HTMLAnchorElement).textContent;
-        const id = (el.children[0] as HTMLAnchorElement).href.match(/\/Home\/PublishGroup\/(\d+)/)?.[1] || "";
+        const { id, name } = getNameAndId(el);
         if (!name) {
             showToast("获取字幕组名称失败，脚本逻辑需要更新。");
             return;
@@ -65,7 +78,7 @@ const Bangumi = () => {
                 onClick={() => {
                     const data = getStorageData();
                     const currentIdSet = new Set(currentPageGroups.map(obj => obj.id));
-                    const existGroups = data.subGroups?.filter(subGroup => currentIdSet.has(subGroup.id)&&subGroup.isBlocked) || [];
+                    const existGroups = data.subGroups?.filter(subGroup => currentIdSet.has(subGroup.id) && subGroup.isBlocked) || [];
                     setBlackList(Array.from(new Set([
                         ...existGroups.map(subGroup => subGroup.name),
                         name
@@ -75,7 +88,7 @@ const Bangumi = () => {
                     if (idx !== -1) {
                         subGroups[idx] = { ...subGroups[idx], isBlocked: true };
                     } else {
-                        subGroups.push({ name, id, isBlocked: true });
+                        subGroups.push({ name, id, isBlocked: true, remark: '' });
                     }
                     GM_setValue(STORE_NAME, {
                         ...data,
@@ -87,16 +100,80 @@ const Bangumi = () => {
                 屏蔽
             </button>
         }
+        const [isRemarkInputShow, setIsRemarkInputShow] = createSignal(false);
+        const [remark, setRemark] = createSignal(data.subGroups?.find(g => g.id === id)?.remark || '');
+        let inputRef: HTMLInputElement | undefined;
+        const handleSaveRemark = () => {
+            const data = getStorageData();
+            const subGroups = data.subGroups || [];
+            const idx = subGroups.findIndex(g => g.id === id);
+            if (idx !== -1) {
+                subGroups[idx] = { ...subGroups[idx], remark: remark() };
+            } else {
+                subGroups.push({ name, id, isBlocked: false, remark: remark() });
+            }
+            GM_setValue(STORE_NAME, {
+                ...data,
+                subGroups
+            });
+            showToast("✓ 修改备注成功");
+            setIsRemarkInputShow(false);
+        }
+        const RemarkCompose = () => {
+            // 当 isRemarkInputShow 变为 true 时自动聚焦输入框
+            createEffect(() => {
+                if (isRemarkInputShow() && inputRef) {
+                    inputRef.focus();
+                }
+            });
+            return <>
+                <button
+                    class="ml-2"
+                    onClick={() => {
+                        setIsRemarkInputShow(!isRemarkInputShow());
+                    }}
+                >
+                    备注：
+                </button>
+                <input
+                    ref={inputRef}
+                    type="text"
+                    class={`ml-2 text-[#3bc0c3] ${isRemarkInputShow() ? 'border' : ''}`}
+                    value={remark()}
+                    onInput={e => setRemark(e.currentTarget.value)}
+                    readOnly={!isRemarkInputShow()}
+                    onFocus={_ => setIsRemarkInputShow(true)}
+                    onKeyDown={e => {
+                        if (e.key === 'Enter') {
+                            handleSaveRemark();
+                        }
+                    }}
+                />
+                <button
+                    class={`ml-2 ${isRemarkInputShow() ? '' : 'hidden'}`}
+                    onClick={handleSaveRemark}
+                >
+                    确认
+                </button>
+                <button
+                    class={`ml-2 floating-menu-button ${isRemarkInputShow() ? '' : 'hidden'}`}
+                    onClick={() => setIsRemarkInputShow(false)}
+                >
+                    取消
+                </button>
+            </>
+        }
         const rssEl: HTMLAnchorElement | null = el.querySelector('.mikan-rss');
         if (rssEl) {
             const rssUrl = rssEl.href;
             const actionArea = document.createElement('span');
             render(() => <BlockBtn />, actionArea);
             render(() => <CopyButton text={rssUrl} />, actionArea);
+            render(() => <RemarkCompose />, actionArea);
             rssEl.after(actionArea);
         }
     });
-
+    
     const leftList = document.querySelectorAll('.leftbar-item') as NodeListOf<HTMLElement>;
     leftList.forEach(el => {
         el.style.position = 'relative';
@@ -107,13 +184,13 @@ const Bangumi = () => {
                 const data = getStorageData();
                 // 直接把相关值置为未屏蔽
                 const currentIdSet = new Set(currentPageGroups.map(obj => obj.id));
-                const existGroups = data.subGroups?.filter(subGroup => currentIdSet.has(subGroup.id)&&subGroup.isBlocked) || [];
+                const existGroups = data.subGroups?.filter(subGroup => currentIdSet.has(subGroup.id) && subGroup.isBlocked) || [];
                 setBlackList(
                     existGroups.map(subGroup => subGroup.name).filter(n => n !== name)
                 );
                 const subGroups = data.subGroups || [];
                 const group = data.subGroups?.find(subGroup => subGroup.name === name);
-                if(!group){
+                if (!group) {
                     showToast("数据异常，无法移除屏蔽");
                     return;
                 }
@@ -126,17 +203,15 @@ const Bangumi = () => {
             }} title="点击取消屏蔽">🧿</span>
         }
         render(() => <ShowSubGroupBtn />, el);
-        // if (name && blackList().includes(name)) {
-        //     el.style.display = 'none';
-        // } else {
-        //     el.style.display = '';
-        // }
     });
+    // 番剧名称复制按钮
+    const bangumiTitle = document.querySelector('.bangumi-title') as HTMLElement;
+    render(() => <CopyButton text={getMeaningfulNodes(bangumiTitle)[0].textContent?.trim() || ''} />, bangumiTitle);
     // 监听黑名单列表并更新视图
     createEffect(() => {
         // 遍历所有字幕组，根据是否在黑名单中决定显示或隐藏
         rssList.forEach(el => {
-            const name = (el.children[0] as HTMLAnchorElement).textContent;
+            const { name } = getNameAndId(el);
             if (name) {
                 const parent = el.closest('.subgroup-text') as HTMLElement;
                 const broTable = parent.nextElementSibling as HTMLTableElement;

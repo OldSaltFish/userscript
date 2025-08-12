@@ -3,7 +3,7 @@ import { render } from 'solid-js/web';
 import 'uno.css';
 import { toast } from './components/Toast';
 import { RATING_LABELS, STORE_NAME } from './const';
-import type { BangumiInfo, StorageData } from './types';
+import type { StorageData } from './types';
 import { getBangumiIdFromHref, getBangumiInfo, getStorageData, saveBangumiInfo } from './utils';
 import Bangumi from './views/Bangumi';
 
@@ -59,7 +59,7 @@ const BangumiRating = (props: { anElement: HTMLElement }) => {
   };
 
   return (
-    <div class="absolute top-0 left-0 w-full bg-white/80 p-2 flex gap-2 text-sm">
+    <div class="absolute sm:flex top-0 left-0 w-full bg-white/80 p-2 grid grid-cols-3 gap-2 text-sm">
       <For each={RATING_LABELS}>
         {(label, index) => (
           <button
@@ -132,8 +132,6 @@ const IndexPanel = () => {
                 onClick={async () => {
                   const AniEl = document.querySelectorAll('.list-inline li');
                   const config: StorageData = getStorageData();
-                  console.log('config', config);
-
                   // 将元素数组分组,每组10个
                   const groups = Array.from(AniEl).reduce((acc, curr, i) => {
                     const groupIndex = Math.floor(i / 10);
@@ -220,9 +218,17 @@ const IndexPanel = () => {
                       });
                     }
                   });
-
+                  const blob = new Blob([JSON.stringify(config.bangumis, null, 2)], { type: 'application/json' });
+                  const url = URL.createObjectURL(blob);
+                  const a = document.createElement('a');
+                  a.href = url;
+                  a.download = 'mikanani-config.json';
+                  document.body.appendChild(a);
+                  a.click();
+                  document.body.removeChild(a);
+                  URL.revokeObjectURL(url);
                   // 最后统一保存
-                  GM_setValue(STORE_NAME, config);
+                  // GM_setValue(STORE_NAME, config);
                   console.log('所有封面收集任务已完成');
                 }}
               >
@@ -250,6 +256,25 @@ const homePageLoadedHandler = () => {
     const li = el.closest('li');
     if (li) {
       li.style.position = 'relative';
+      render(() => <BangumiRating anElement={el} />, li);
+    }
+  });
+  const mobileElements: NodeListOf<HTMLElement> = document.querySelectorAll('.m-week-square a');
+  mobileElements.forEach(el => {
+    const fa = el.closest('.m-week-square') as HTMLElement;
+    const computedStyle = window.getComputedStyle(fa);
+    const originalMarginBottom = computedStyle.marginBottom;
+
+    if (originalMarginBottom) {
+      const numericValue = parseFloat(originalMarginBottom);
+      const newMarginBottom = numericValue + 80 + 'px';
+      fa.style.marginBottom = newMarginBottom;
+    } else {
+      // 若原值为空（如未显式设置），直接添加80px
+      fa.style.marginBottom = '80px';
+    }
+    const li = el.closest('div') as HTMLElement;
+    if (li) {
       render(() => <BangumiRating anElement={el} />, li);
     }
   });

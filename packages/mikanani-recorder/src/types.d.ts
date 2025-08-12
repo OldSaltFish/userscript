@@ -9,6 +9,7 @@ export interface SubGroup {
   id: string;
   name: string;
   isBlocked: boolean; // 是否被屏蔽
+  remark: string; // 备注
 }
 
 export interface StorageData {

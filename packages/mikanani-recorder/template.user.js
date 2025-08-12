@@ -6,6 +6,7 @@
 // @author       魂祈梦
 // @match        https://mikanani.me/*
 // @match        https://mikanani.tv/*
+// @match        https://mikanani.kas.pub/*
 // @grant        GM_registerMenuCommand
 // @grant        GM_getValue
 // @grant        GM_setValue

@@ -4,7 +4,14 @@ import type { BangumiInfo, StorageData } from "./types";
 // 从GM存储获取所有番剧数据
 export const getStorageData = (): StorageData => {
   const data: StorageData = GM_getValue(STORE_NAME);
-  return data || { bangumis: [], isCollapsed: false, blockedSubgroups: [],subGroups: [] };
+  return (
+    data || {
+      bangumis: [],
+      isCollapsed: false,
+      blockedSubgroups: [],
+      subGroups: [],
+    }
+  );
 };
 
 // 获取当前页面的番剧ID
@@ -36,7 +43,16 @@ export const saveBangumiInfo = (info: BangumiInfo) => {
 };
 
 // 获取单个番剧信息
-export const getBangumiInfo =  (id: string): BangumiInfo | null => {
+export const getBangumiInfo = (id: string): BangumiInfo | null => {
   const data = getStorageData();
-  return data.bangumis.find(item => item.id === id) || null;
+  return data.bangumis.find((item) => item.id === id) || null;
 };
+
+export function getMeaningfulNodes(element: Element): Node[] {
+  return Array.from(element.childNodes).filter((node) => {
+    return (
+      node.nodeType === Node.ELEMENT_NODE ||
+      (node.nodeType === Node.TEXT_NODE && node.textContent?.trim() !== "")
+    );
+  });
+}
