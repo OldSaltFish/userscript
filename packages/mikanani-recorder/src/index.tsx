@@ -7,6 +7,7 @@ import type { StorageData } from './types';
 import { getBangumiIdFromHref, getBangumiInfo, getStorageData, saveBangumiInfo } from './utils';
 import Bangumi from './views/Bangumi';
 
+const config = getStorageData()?.config;
 // 番剧评分组件
 const BangumiRating = (props: { anElement: HTMLElement }) => {
   const [rating, setRating] = createSignal(999);
@@ -23,7 +24,7 @@ const BangumiRating = (props: { anElement: HTMLElement }) => {
   });
   createEffect(
     () => {
-      if (rating() <= 1) {
+      if (rating() <= 1 && !config?.isShowLowRating) {
         const li = props.anElement.closest('li');
         if (li) {
           li.style.display = 'none';
@@ -59,7 +60,7 @@ const BangumiRating = (props: { anElement: HTMLElement }) => {
   };
 
   return (
-    <div class="absolute sm:flex top-0 left-0 w-full bg-white/80 p-2 grid grid-cols-3 gap-2 text-sm">
+    <div class="sm:absolute sm:flex top-0 left-0 w-full bg-white/40 p-2 grid grid-cols-3 gap-2 text-sm">
       <For each={RATING_LABELS}>
         {(label, index) => (
           <button
@@ -130,6 +131,7 @@ const IndexPanel = () => {
               <button
                 class="w-full bg-blue-500 text-white rounded py-2 hover:bg-blue-600"
                 onClick={async () => {
+                  // 先获取信息（手机电脑的逻辑不同），最终得到infos数组，然后再分组处理
                   const AniEl = document.querySelectorAll('.list-inline li');
                   const config: StorageData = getStorageData();
                   // 将元素数组分组,每组10个
@@ -234,7 +236,21 @@ const IndexPanel = () => {
               >
                 收集番剧封面（请确保页面中所有封面已加载）
               </button>
-
+              <div>
+                {/* 显示全部 */}
+                <label>
+                  显示低评分番剧(0-1分)
+                 <input style="margin:0;vertical-align:middle;" type="checkbox" checked={getStorageData().config?.isShowLowRating || false} onChange={e=>{
+                  const data = getStorageData();
+                  data.config =  {
+                    ...data.config,
+                    isShowLowRating: e.target.checked,
+                  };
+                  GM_setValue(STORE_NAME, data);
+                  if(e.target.checked) location.reload();
+                }}/>
+                </label>
+              </div>
               <button
                 class="w-full bg-green-500 text-white rounded py-2 hover:bg-green-600"
                 onClick={exportConfig}

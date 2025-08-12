@@ -17,4 +17,7 @@ export interface StorageData {
   isCollapsed: boolean;
   subGroups:SubGroup[];
   blockedSubgroups: string[]; // 用于存储被屏蔽的RSS链接
+  config:{
+    isShowLowRating: boolean, // 低分不隐藏
+  }
 }

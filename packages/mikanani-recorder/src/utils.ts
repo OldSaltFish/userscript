@@ -56,3 +56,7 @@ export function getMeaningfulNodes(element: Element): Node[] {
     );
   });
 }
+
+export function isMobile() {
+  return window.innerWidth <= 990;
+}
