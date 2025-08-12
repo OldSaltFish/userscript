@@ -15,9 +15,18 @@ export interface SubGroup {
 export interface StorageData {
   bangumis: BangumiInfo[];
   isCollapsed: boolean;
-  subGroups:SubGroup[];
+  subGroups: SubGroup[];
   blockedSubgroups: string[]; // 用于存储被屏蔽的RSS链接
-  config:{
-    isShowLowRating: boolean, // 低分不隐藏
-  }
+  config: {
+    isShowLowRating: boolean; // 低分不隐藏
+    isExportLowRating: boolean; // 导出低分
+  };
+}
+
+export interface RankBangumiInfo {
+  id: string;
+  title: string;
+  coverUrl: string;
+  coverBase64?: string;
+  rating: number;
 }
