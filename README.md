@@ -12,6 +12,15 @@ https://greasyfork.org/zh-CN/scripts/521549-%E5%BF%85%E5%BA%94%E5%87%80%E5%8C%96
 左右键一起按，像触摸板一样使用鼠标滚轮。
 https://greasyfork.org/zh-CN/scripts/538393-%E9%BC%A0%E6%A0%87%E6%91%87%E6%BB%9A%E6%89%8B%E5%8A%BF%E6%BB%9A%E5%8A%A8%E6%8E%A7%E5%88%B6
 
+### 蜜柑记录者
+为蜜柑计划提供一些记录功能。  
+[详细介绍页面](packages/mikanani-recorder/README.md)
+- 番剧手动评分，0-1分默认屏蔽。
+![alt text](packages/mikanani-recorder/imgs/PixPin_2025-08-13_02-40-42.webp)
+- 屏蔽特定的字幕组。  
+![alt text](packages/mikanani-recorder/imgs/PixPin_2025-08-13_02-48-28.webp)
+
+[更多功能移置详情查看](packages/mikanani-recorder/README.md)
 ## 脚本网站
 1. 油叉 目前被gank了国内无法访问。  
 https://greasyfork.org/

@@ -6,19 +6,24 @@
 
 ## 预览
 
-![alt text](imgs/image.png)
-![alt text](imgs/image-1.png)
 
 ## 功能
-- 屏蔽你不喜欢的字幕组
-- 为番剧打分，0-1 分的作品自动屏蔽
-- RSS 链接一键复制
-![alt text](imgs/3.png)  
+- 番剧手动评分，0-1分默认屏蔽。
+![alt text](imgs/PixPin_2025-08-13_02-40-42.webp)
+- 不是我喜欢的字幕组，直接屏蔽。  
+- RSS 链接一键复制，作品名称一键复制。  
+![alt text](imgs/PixPin_2025-08-13_02-48-28.webp)
+![alt text](imgs/3.png)
+
+- 根据打分导出番剧信息，并可以一键导入到Anime-tierMaker
+![alt text](imgs/PixPin_2025-08-13_02-57-26.webp)
+
+- 设置面板
+![alt text](imgs/image.png)
 
 ## 开发
 
 生成脚本
-
 ```shell
 bun release
 ```
@@ -42,7 +47,3 @@ bun release
 
 </details>
 
-## TODO
-
-- [ ] 修复 bug
-      存储数据量过大，导致一进页面浏览器就崩溃了。后续采用导出文件而不是存储数据的方式。
