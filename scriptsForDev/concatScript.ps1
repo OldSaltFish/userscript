@@ -42,7 +42,7 @@ $metaContent
 (function() {
   'use strict';
   // 添加全局样式
-  GM_addStyle(``$cssContent``);
+  GM_addStyle(String.raw``$cssContent``);
   $jsContent
 })();
 "@
