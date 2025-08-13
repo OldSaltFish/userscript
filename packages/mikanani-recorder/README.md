@@ -1,9 +1,19 @@
 # mikanani-recorder
 蜜柑记录器。（蜜柑计划）  
-[直接安装(需要有脚本管理器，比如暴力猴)](https://github.com/OldSaltFish/userscript/raw/refs/heads/main/packages/mikanani-recorder/output.user.js)  
+## 前提条件
+需要有脚本管理器，比如暴力猴。  
+手机上可以使用via、x浏览器、M浏览器，以及雨见浏览器、Edge等支持扩展的浏览器。  
+
+## 安装
+[直接安装(github)](https://github.com/OldSaltFish/userscript/raw/refs/heads/main/packages/mikanani-recorder/output.user.js)  
+[直接安装(gitee)](https://gitee.com/oldsaltfish/userscript/raw/main/packages/mikanani-recorder/output.user.js)  
 [前往greasyfork查看](https://greasyfork.org/zh-CN/scripts/545661-%E8%9C%9C%E6%9F%91%E8%AE%B0%E5%BD%95)  
 [前往greasyfork镜像查看](https://gf.qytechs.cn/zh-CN/scripts/545661-%E8%9C%9C%E6%9F%91%E8%AE%B0%E5%BD%95)  
 梯度制作器网址: [Anime-TierMaker](http://anime-tiermaker.dreamsoul.cn)  
+
+[🌠给个Star(github)](https://github.com/OldSaltFish/userscript)  
+[🌠给个Star(gitee)](https://gitee.com/oldsaltfish/userscript)  
+
 ## 蜜柑计划
 - 原版  
 https://mikanani.me/  
