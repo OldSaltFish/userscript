@@ -4,9 +4,6 @@
 起初是用于记录自己看到哪集了，后来发现 RSS 订阅能自动下载，因此后续做了获取封面信息的功能，并配套了 TierMaker（https://github.com/OldSaltFish/Anime-TierMaker.git）。  
 网址: https://anime-tiermaker.pages.dev/
 
-## 预览
-
-
 ## 功能
 - 番剧手动评分，0-1分默认屏蔽。
 ![alt text](imgs/PixPin_2025-08-13_02-40-42.webp)
