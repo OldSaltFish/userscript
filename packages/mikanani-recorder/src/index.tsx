@@ -77,6 +77,21 @@ const BangumiRating = (props: { anElement: HTMLElement }) => {
   );
 };
 
+const OnlineWatch = (props: { name: string }) => {
+  const biliSearchUrl = new URL(`https://search.bilibili.com/all`);
+  biliSearchUrl.searchParams.set('keyword', props.name);
+  biliSearchUrl.searchParams.set('search_source', "1");
+  const ezdmwSearchUrl = new URL(`https://www.ezdmw.site/Index/search.html`);
+  ezdmwSearchUrl.searchParams.set('searchText', props.name);
+  const xifanSearchUrl = new URL(`https://dm.xifanacg.com/search.html`);
+  xifanSearchUrl.searchParams.set('wd', props.name);
+
+  return <div class='clear-both flex flex-wrap gap-2 bg-white/60 '>
+    <a href={biliSearchUrl.toString()} target='_blank' class="p-4px bg-#F6AB43 rounded-4px">哔哩哔哩</a>
+    <a href={ezdmwSearchUrl.toString()} target='_blank' class="p-4px bg-#F6AB43 round-4px">E站弹幕网</a>
+    <a href={xifanSearchUrl.toString()} target='_blank' class="p-4px bg-#F6AB43 round-4px">稀饭动漫</a>
+  </div>
+}
 
 const IndexPanel = () => {
   if (location.pathname !== '/') return null;
@@ -120,7 +135,7 @@ const IndexPanel = () => {
           <div class="bg-white rounded-lg p-6 w-80">
             <div class="flex justify-between items-center mb-4">
               {/* m-0用于覆盖外部网站提供的样式 */}
-              <h3 class="m-0 text-lg font-bold">设置</h3>
+              <h3 class="m-0 text-lg font-bold">[蜜柑记录]脚本设置</h3>
               <button
                 class="text-gray-500 hover:text-gray-700"
                 onClick={() => setShowPanel(false)}
@@ -147,7 +162,7 @@ const IndexPanel = () => {
                       if (!infoEl) continue;
                       const id = getBangumiIdFromHref(infoEl.href);
                       let ExtRating = data.bangumis.find(bangumi => bangumi.id === id)?.rating;
-                      if (!data.config?.isExportLowRating&&ExtRating !== undefined && ExtRating <= 1) {
+                      if (!data.config?.isExportLowRating && ExtRating !== undefined && ExtRating <= 1) {
                         continue;
                       }
                       let url: string | null = null;
@@ -185,7 +200,7 @@ const IndexPanel = () => {
                       const id = getBangumiIdFromHref(item.href);
                       if (!id) continue;
                       let ExtRating = data.bangumis.find(bangumi => bangumi.id === id)?.rating;
-                      if (!data.config?.isExportLowRating&&ExtRating !== undefined && ExtRating <= 1) {
+                      if (!data.config?.isExportLowRating && ExtRating !== undefined && ExtRating <= 1) {
                         continue;
                       }
 
@@ -258,8 +273,9 @@ const IndexPanel = () => {
                   showToast('所有封面收集任务已完成');
                 }}
               >
-                导出番剧信息
+                导出番剧信息(json)
               </button>
+              <a href="http://anime-tiermaker.dreamsoul.cn/" target='_blank' rel='noopener'>前往Anime-TierMaker(可导入一键制作)</a>
               <div>
                 {/* 显示全部 */}
                 <label>
@@ -309,6 +325,10 @@ const homePageLoadedHandler = () => {
       li.style.position = 'relative';
       render(() => <BangumiRating anElement={el} />, li);
     }
+    const infoEl = el.closest('.an-info');
+    if(infoEl){
+      render(() => <OnlineWatch name={el.title} />, infoEl);
+    }
   });
   const mobileElements: NodeListOf<HTMLElement> = document.querySelectorAll('.m-week-square a');
   mobileElements.forEach(el => {
@@ -318,7 +338,7 @@ const homePageLoadedHandler = () => {
 
     if (originalMarginBottom) {
       const numericValue = parseFloat(originalMarginBottom);
-      const newMarginBottom = numericValue + 80 + 'px';
+      const newMarginBottom = numericValue + 156 + 'px';
       fa.style.marginBottom = newMarginBottom;
     } else {
       // 若原值为空（如未显式设置），直接添加80px
@@ -327,6 +347,7 @@ const homePageLoadedHandler = () => {
     const li = el.closest('div') as HTMLElement;
     if (li) {
       render(() => <BangumiRating anElement={el} />, li);
+      render(() => <OnlineWatch name={el.title} />, li);
     }
   });
 }

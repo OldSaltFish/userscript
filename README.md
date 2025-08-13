@@ -14,6 +14,7 @@ https://greasyfork.org/zh-CN/scripts/538393-%E9%BC%A0%E6%A0%87%E6%91%87%E6%BB%9A
 
 ### 蜜柑记录者
 为蜜柑计划提供一些记录功能。  
+https://greasyfork.org/zh-CN/scripts/545661-%E8%9C%9C%E6%9F%91%E8%AE%B0%E5%BD%95  
 [详细介绍页面](packages/mikanani-recorder/README.md)
 - 番剧手动评分，0-1分默认屏蔽。
 ![alt text](packages/mikanani-recorder/imgs/PixPin_2025-08-13_02-40-42.webp)

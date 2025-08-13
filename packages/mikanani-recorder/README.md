@@ -1,10 +1,15 @@
 # mikanani-recorder
-
 蜜柑记录器。（蜜柑计划）  
-起初是用于记录自己看到哪集了，后来发现 RSS 订阅能自动下载，因此后续做了获取封面信息的功能，并配套了 TierMaker（https://github.com/OldSaltFish/Anime-TierMaker.git）。  
-网址: https://anime-tiermaker.pages.dev/
-
-## 功能
+[直接安装(需要有脚本管理器，比如暴力猴)](https://github.com/OldSaltFish/userscript/raw/refs/heads/main/packages/mikanani-recorder/output.user.js)  
+[前往greasyfork查看](https://greasyfork.org/zh-CN/scripts/545661-%E8%9C%9C%E6%9F%91%E8%AE%B0%E5%BD%95)  
+[前往greasyfork镜像查看](https://gf.qytechs.cn/zh-CN/scripts/545661-%E8%9C%9C%E6%9F%91%E8%AE%B0%E5%BD%95)  
+梯度制作器网址: [Anime-TierMaker](http://anime-tiermaker.dreamsoul.cn)  
+## 蜜柑计划
+- 原版  
+https://mikanani.me/  
+- 国内镜像  
+https://mikanani.kas.pub/  
+## 功能展示
 - 番剧手动评分，0-1分默认屏蔽。
 ![alt text](imgs/PixPin_2025-08-13_02-40-42.webp)
 - 不是我喜欢的字幕组，直接屏蔽。  
@@ -14,10 +19,17 @@
 
 - 根据打分导出番剧信息，并可以一键导入到Anime-tierMaker
 ![alt text](imgs/PixPin_2025-08-13_02-57-26.webp)
-
+- 一键跳转网站看番（第三方）
+![alt text](imgs/PixPin_2025-08-14_02-05-47.webp)
 - 设置面板
 ![alt text](imgs/image.png)
 
+## 反馈
+- [Github issue(推荐)](https://github.com/OldSaltFish/userscript/issues)  
+- [Gitee issue](https://gitee.com/oldsaltfish/userscript/issues/new)  
+假如你不喜欢github，可以使用Gitee。  
+- [BiliBili 宣传视频](https://space.bilibili.com/1001913/#!/v2/article/detail?aid=543853849)  
+如果你不没有上面这俩的账号或者觉得麻烦，可以到b站评论区留言。  
 ## 开发
 
 生成脚本

@@ -2,8 +2,9 @@
 // @name         蜜柑记录
 // @namespace    http://dreamsoul.cn/
 // @version      1.0.0
-// @description  记录观影进度
 // @author       魂祈梦
+// @description  记录观影进度
+// @icon         https://origin.picgo.net/2025/08/14/20230114183308_b406b-removebg-preview-16e2e100d329d649b.webp
 // @match        https://mikanani.me/*
 // @match        https://mikanani.tv/*
 // @match        https://mikanani.kas.pub/*
