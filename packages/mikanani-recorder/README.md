@@ -6,7 +6,7 @@
 
 ## 安装
 [直接安装(github)](https://github.com/OldSaltFish/userscript/raw/refs/heads/main/packages/mikanani-recorder/output.user.js)  
-[直接安装(gitee)](https://gitee.com/oldsaltfish/userscript/raw/main/packages/mikanani-recorder/output.user.js)  
+[直接安装(gitee)](https://gitee.com/oldsaltfish/userscript/raw/main/packages/mikanani-recorder/output.user.js){:target="_blank"}  
 [前往greasyfork查看](https://greasyfork.org/zh-CN/scripts/545661-%E8%9C%9C%E6%9F%91%E8%AE%B0%E5%BD%95)  
 [前往greasyfork镜像查看](https://gf.qytechs.cn/zh-CN/scripts/545661-%E8%9C%9C%E6%9F%91%E8%AE%B0%E5%BD%95)  
 梯度制作器网址: [Anime-TierMaker](http://anime-tiermaker.dreamsoul.cn)  
