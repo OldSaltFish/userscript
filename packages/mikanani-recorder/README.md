@@ -5,8 +5,8 @@
 手机上可以使用via、x浏览器、M浏览器，以及雨见浏览器、Edge等支持扩展的浏览器。  
 
 ## 安装
-[直接安装(github)](https://github.com/OldSaltFish/userscript/raw/refs/heads/main/packages/mikanani-recorder/output.user.js)  
-[直接安装(gitee)](https://gitee.com/oldsaltfish/userscript/raw/main/packages/mikanani-recorder/output.user.js){:target="_blank"}  
+<a href="https://github.com/OldSaltFish/userscript/raw/refs/heads/main/packages/mikanani-recorder/output.user.jss" target="_blank">直接安装(github)</a>  
+<a href="https://gitee.com/oldsaltfish/userscript/raw/main/packages/mikanani-recorder/output.user.js" target="_blank">直接安装(gitee)</a>  
 [前往greasyfork查看](https://greasyfork.org/zh-CN/scripts/545661-%E8%9C%9C%E6%9F%91%E8%AE%B0%E5%BD%95)  
 [前往greasyfork镜像查看](https://gf.qytechs.cn/zh-CN/scripts/545661-%E8%9C%9C%E6%9F%91%E8%AE%B0%E5%BD%95)  
 梯度制作器网址: [Anime-TierMaker](http://anime-tiermaker.dreamsoul.cn)  
