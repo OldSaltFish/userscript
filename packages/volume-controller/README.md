@@ -1,6 +1,12 @@
 # 音量控制器
 <a href="https://github.com/OldSaltFish/userscript/raw/refs/heads/main/packages/volume-controller/output.user.js" target="_blank">直接安装(github)</a>  
 
+## 兼容性
+网易云在线音乐没有使用audio和video标签，也没有使用iframe。此脚本对其不起作用。  
+移动端Edge和360极速浏览器不支持。  
+目前猜测是这些浏览器对视频播放音量做了特殊处理，导致我们的调整不生效。  
+之前用过Chrome插件来调整音量，发现某些浏览器照样不生效，因此尝试使用脚本来调整，没想到还是失败了。  
+
 ## 开发
 ### 调整音量原理
 ```js
@@ -25,3 +31,6 @@ gainNode.connect(audioContext.destination);
 由于脚本是全局的，因此为了降低侵入性我们要尽可能在无关网页上少执行代码。  
 - 如果已经设置过音量，那么可以放心初始化。  
 - 如果从未设置过音量，那么应该在第一次点击调整音量按钮时初始化。  
+
+
+
