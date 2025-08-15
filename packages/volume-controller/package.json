@@ -1,0 +1,7 @@
+{
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "release": "rsbuild build && pwsh -file ../../scriptsForDev/release.ps1"
+  }
+}
