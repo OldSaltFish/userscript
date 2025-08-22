@@ -2,8 +2,8 @@
 
 <a href="https://github.com/OldSaltFish/userscript/raw/refs/heads/main/packages/volume-controller/output.user.js" target="_blank">直接安装(github)</a>
 
-## 兼容性
-
+## 兼容性/可用性
+**由于安卓版Edge不支持，所以这个脚本的意义不大了。**
 网易云在线音乐没有使用audio和video标签，也没有使用iframe。此脚本对其不起作用。\
 移动端Edge和360极速浏览器不支持。\
 目前猜测是这些浏览器对视频播放音量做了特殊处理，导致我们的调整不生效。\
