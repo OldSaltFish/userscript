@@ -98,3 +98,7 @@ bing可能在load之后才执行的某些广告代码，因此我们使用定时
 https://cn.bing.com/?mid=10006  
 或者，到bing.com，找到下面移动端的按钮。  
 ![![alt text](img/image-5.png) 1](https://s3.bmp.ovh/imgs/2025/01/26/1a8828fc4f9e10fb.png) 
+
+
+### 重构
+旧版本依赖了jquery和swal以及Lit，后续版本打算重构以移除依赖。  

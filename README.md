@@ -12,7 +12,7 @@
 | ------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | 必应净化     | [详细介绍页面](packages/bing-purifier/README.md)<br/>用于去除垃圾搜索结果的脚本。 |                                                              | [GreasyFork](https://greasyfork.org/zh-CN/scripts/521549-%E5%BF%85%E5%BA%94%E5%87%80%E5%8C%96) |
 | 鼠标手势滚轮 | [详细介绍页面](packages/mouse-gesture/README.md)<br/>左右键一起按，像触摸板一样使用鼠标滚轮。 |                                                              | [GreasyFork](https://greasyfork.org/zh-CN/scripts/538393-%E9%BC%A0%E6%A0%87%E6%91%87%E6%BB%9A%E6%89%8B%E5%8A%BF%E6%BB%9A%E5%8A%A8%E6%8E%A7%E5%88%B6) |
-| 蜜柑记录者   | [详细介绍页面](packages/mikanani-recorder/README.md)<br/>为蜜柑计划提供一些记录功能。 | 番剧手动评分，0-1分默认屏蔽。<br/>![alt text](packages/mikanani-recorder/imgs/PixPin_2025-08-13_02-40-42.webp) | <a href="https://github.com/OldSaltFish/userscript/raw/refs/heads/main/packages/mikanani-recorder/output.user.js" target="_blank">直接安装(github)</a>  <br/><a href="https://gitee.com/oldsaltfish/userscript/raw/main/packages/mikanani-recorder/output.user.js" target="_blank">直接安装(gitee)</a><br/>[greasyfork镜像](https://gf.qytechs.cn/zh-CN/scripts/545661-%E8%9C%9C%E6%9F%91%E8%AE%B0%E5%BD%95) |
+| 蜜柑记录者   | [详细介绍页面](packages/mikanani-recorder/README.md)<br/>为蜜柑计划提供一些记录功能。 | 番剧手动评分，0-1分默认屏蔽。<br/>![alt text](packages/mikanani-recorder/imgs/PixPin_2025-08-13_02-40-42.webp) |
 | 音量控制器   | 为不同网站提供不同音量。（标签页）                           |                                                              | <a href="https://github.com/OldSaltFish/userscript/raw/refs/heads/main/packages/volume-controller/output.user.js">直接安装(github)</a> |
 
 <u>此处表格使用typora等markdown编辑器编辑，`<br/>换行`</u>
@@ -49,7 +49,7 @@ https://github.com/OldSaltFish/userscript/tree/main/
 ![PixPin_2025-08-16_16-05-20](imgs/PixPin_2025-08-16_16-05-20.jpg)
 
 ### 终端环境
-使用了powershell 7.5.1版本（pwsh），使用了ps1脚本。  
+使用了pwsh最新版，手写了ps1脚本。  
 
 scriptForDev  
 - concatScript，将css和js等文件拼接成一个完整的用户脚本（油猴脚本）。  
