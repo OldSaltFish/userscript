@@ -38,7 +38,7 @@ https://mikanani.kas.pub/
 - [Github issue(推荐)](https://github.com/OldSaltFish/userscript/issues)  
 - [Gitee issue](https://gitee.com/oldsaltfish/userscript/issues/new)  
 假如你不喜欢github，可以使用Gitee。  
-- [BiliBili 宣传视频](https://space.bilibili.com/1001913/#!/v2/article/detail?aid=543853849)  
+- [BiliBili 宣传视频](https://www.bilibili.com/video/BV1aMbzzHEN)  
 如果你不没有上面这俩的账号或者觉得麻烦，可以到b站评论区留言。  
 ## 开发
 
