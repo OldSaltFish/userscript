@@ -85,11 +85,23 @@ const OnlineWatch = (props: { name: string }) => {
   ezdmwSearchUrl.searchParams.set('searchText', props.name);
   const xifanSearchUrl = new URL(`https://dm.xifanacg.com/search.html`);
   xifanSearchUrl.searchParams.set('wd', props.name);
+  const anifunSearchUrl = new URL(`https://anifun.cn/search`);
+  anifunSearchUrl.searchParams.set('keywords', props.name);
+  anifunSearchUrl.searchParams.set('type', 'ac');
+  const bgmSearchUrl = new URL(`https://bgm.tv/subject_search/${props.name}?cat=2`)
+  const unit8array = new TextEncoder().encode(JSON.stringify({ "kw": props.name, "tags": [], "cat": [], "paged": 1, "cats": [1] }))
+  const binaryString = unit8array.reduce((bString, byte) =>
+    bString + String.fromCharCode(byte)
+    , '')
+  const acgndogSearchUrl = new URL(`https://www.acgndog.com/search/-#${btoa(binaryString)}`)
 
   return <div class='clear-both flex flex-wrap gap-2 bg-white/60 '>
     <a href={biliSearchUrl.toString()} target='_blank' class="p-4px bg-#F6AB43 rounded-4px">哔哩哔哩</a>
     <a href={ezdmwSearchUrl.toString()} target='_blank' class="p-4px bg-#F6AB43 round-4px">E站弹幕网</a>
     <a href={xifanSearchUrl.toString()} target='_blank' class="p-4px bg-#F6AB43 round-4px">稀饭动漫</a>
+    <a href={anifunSearchUrl.toString()} target='_blank' class="p-4px bg-#F6AB43 round-4px">AniFun</a>
+    <a href={bgmSearchUrl.toString()} target='_blank' class="p-4px bg-#F6AB43 round-4px">bangumi</a>
+    <a href={acgndogSearchUrl.toString()} target='_blank' class="p-4px bg-#F6AB43 round-4px">次元狗(下载)</a>
   </div>
 }
 
@@ -326,7 +338,7 @@ const homePageLoadedHandler = () => {
       render(() => <BangumiRating anElement={el} />, li);
     }
     const infoEl = el.closest('.an-info');
-    if(infoEl){
+    if (infoEl) {
       render(() => <OnlineWatch name={el.title} />, infoEl);
     }
   });

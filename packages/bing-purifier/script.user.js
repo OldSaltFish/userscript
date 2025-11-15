@@ -339,11 +339,7 @@
                   textarea.style.height = '75vh'
                   Swal.fire({
                       title: "修改正则",
-                      html: textarea
-                      // `
-                      //   <textarea id="modText" style="width: 100%;height:75vh;">${GM_getValue("dreamqi-bingSearch-regex")}</textarea>
-                      // `
-                      ,
+                      html: textarea,
                       showCloseButton: true,
                       showCancelButton: true,
                       focusConfirm: false,

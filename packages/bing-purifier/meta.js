@@ -9,9 +9,8 @@
 // @author      魂祈梦
 // @description 去除多余的搜索建议和低质量搜索结果，2024/1/23 21:51:58
 // @icon        https://s11.ax1x.com/2024/01/24/pFetIiR.png
-// @require     https://registry.npmmirror.com/jquery/3.7.0/files/dist/jquery.min.js
-// @require     https://registry.npmmirror.com/sweetalert2/10.16.6/files/dist/sweetalert2.all.min.js
 // @grant       GM_registerMenuCommand
+// @grant       GM_addStyle
 // @grant       GM_getValue
 // @grant       GM_setValue
 // @noframes

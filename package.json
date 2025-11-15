@@ -5,17 +5,17 @@
     "@rsbuild/core": "^1.4.11",
     "@rsbuild/plugin-babel": "^1.0.5",
     "@rsbuild/plugin-solid": "^1.0.5",
-    "@types/jquery": "^3.5.32",
     "@types/tampermonkey": "^5.0.4",
+    "@unocss/postcss": "^66.4.2",
     "@unocss/preset-wind4": "^66.3.3",
     "@unocss/webpack": "^66.3.3",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "unocss": "^66.4.2"
   },
   "workspaces": [
     "packages/*"
   ],
   "dependencies": {
     "solid-js": "^1.9.7"
-  },
-  "packageManager": "pnpm@10.5.2+sha512.da9dc28cd3ff40d0592188235ab25d3202add8a207afbedc682220e4a0029ffbff4562102b9e6e46b4e3f9e8bd53e6d05de48544b0c57d4b0179e22c76d1199b"
+  }
 }

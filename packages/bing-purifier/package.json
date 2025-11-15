@@ -1,0 +1,13 @@
+{
+  "name": "bing-purifier",
+  "private": true,
+  "type": "module",
+  "devDependencies": {
+    "@unocss/preset-wind4": "^66.3.3",
+    "@unocss/webpack": "^66.3.3"
+  },
+  "scripts": {
+    "dev": "rsbuild dev",
+    "release": "rsbuild build && pwsh -file ../../scriptsForDev/release.ps1"
+  }
+}

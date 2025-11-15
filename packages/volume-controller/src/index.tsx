@@ -1,7 +1,15 @@
-
 import { createEffect, createSignal, onMount, Show, type JSX } from 'solid-js';
 import { render } from 'solid-js/web';
 import 'uno.css';
+
+// 提取Google Play应用ID的函数
+function extractGooglePlayAppId(url: string): string | null {
+  // 匹配格式: https://play.google.com/store/apps/details?id=com.vivaldi.browser
+  const regex = /https:\/\/play\.google\.com\/store\/apps\/details\?(?:[^&]*&)*id=([^&]+)/;
+  const match = url.match(regex);
+  return match ? match[1] : null;
+}
+
 const [volume, setVolume] = createSignal(1);
 // 音量控制模式
 type VolumeControlMode = 'modern' | 'traditional';
@@ -37,7 +45,7 @@ class AudioController {
     // 应用当前音量到所有媒体元素
     this.applyTraditionalVolume(volume());
   }
-
+  
   // 初始化现代控制模式
   private initializeModern(): void {
     if (!this.audioContext) {
@@ -67,7 +75,7 @@ class AudioController {
   public toggleControlMode(): void {
     this.controlMode = this.controlMode === 'modern' ? 'traditional' : 'modern';
     GM_setValue('volumeControlMode', this.controlMode);
-
+    
     // 如果切换到传统模式，需要重置现代模式的连接
     if (this.controlMode === 'traditional') {
       this.resetModernConnections();
@@ -75,16 +83,16 @@ class AudioController {
       // 如果切换到现代模式，需要重新初始化
       this.initialize();
     }
-
+    
     // 应用当前音量
     this.applyVolume(volume());
   }
-
+  
   // 获取当前控制模式
   public getControlMode(): VolumeControlMode {
     return this.controlMode;
   }
-
+  
   // 重置现代模式的连接
   private resetModernConnections(): void {
     if (this.audioContext) {
@@ -98,7 +106,7 @@ class AudioController {
       this.sourceNodes.clear();
     }
   }
-
+  
   // 使用传统方式应用音量
   private applyTraditionalVolume(vol: number): void {
 
@@ -106,21 +114,21 @@ class AudioController {
     mediaElements.forEach((element, index) => {
       element.volume = vol;
     });
-
+    
     // 监听新添加的媒体元素
     if (!this._traditionalObserverActive) {
       this.observeTraditionalMediaElements();
     }
 
   }
-
+  
   // 标记传统观察器是否激活
   private _traditionalObserverActive = false;
-
+  
   // 监听传统方式的媒体元素
   private observeTraditionalMediaElements(): void {
     this._traditionalObserverActive = true;
-
+    
     const observer = new MutationObserver((mutations: MutationRecord[]): void => {
       mutations.forEach((mutation: MutationRecord): void => {
         mutation.addedNodes.forEach((node: Node): void => {
@@ -129,7 +137,7 @@ class AudioController {
             if (node.tagName === 'AUDIO' || node.tagName === 'VIDEO') {
               (node as HTMLMediaElement).volume = volume();
             }
-
+            
             // 处理子元素
             const mediaElements = node.querySelectorAll('audio, video');
             mediaElements.forEach((element: Element): void => {
@@ -141,12 +149,12 @@ class AudioController {
     });
     observer.observe(document.body, { childList: true, subtree: true });
   }
-
+  
   // 应用音量（根据当前模式选择方法）
   public applyVolume(vol: number): void {
     // 保存音量设置（两种模式共用）
     this.saveVolumeSettings(vol);
-
+    
     // 根据模式应用音量
     if (this.controlMode === 'traditional') {
       this.applyTraditionalVolume(vol);
@@ -154,7 +162,7 @@ class AudioController {
       this.applyModernVolume(vol);
     }
   }
-
+  
   // 使用现代方式应用音量
   private applyModernVolume(vol: number): void {
     if (!this.gainNode) {
@@ -164,7 +172,7 @@ class AudioController {
 
     this.gainNode.gain.value = vol;
   }
-
+  
   // 保存音量设置（两种模式共用）
   private saveVolumeSettings(vol: number): void {
     const domainSettings = GM_getValue<VolumeSettings>('volumeSettings', {});
@@ -172,7 +180,7 @@ class AudioController {
     GM_setValue('volumeSettings', domainSettings);
 
   }
-
+  
   // 兼容旧版API
   public saveVolume(vol: number): void {
     this.applyVolume(vol);
@@ -189,7 +197,7 @@ class AudioController {
     if (!this.audioContext || !this.gainNode) {
       return;
     }
-
+    
     // 检查元素是否已经被处理过
     if (this.sourceNodes.has(element)) {
       return;
@@ -244,7 +252,7 @@ const VolumePanel = () => {
   createEffect(() => {
     audioController.saveVolume(volume());
   })
-
+  
   // 切换控制模式
   const toggleControlMode = () => {
     audioController.toggleControlMode();
@@ -259,12 +267,12 @@ const VolumePanel = () => {
   // 更新输入框音量
   const updateVolumeFromInput = (e: Event): void => {
     const value = (e.target as HTMLInputElement).value;
-
+    
     // 只允许输入数字
     if (!/^\d*$/.test(value)) {
       return;
     }
-
+    
     // 转换为数字并限制范围
     const percent = parseInt(value, 10) || 0;
     const limitedPercent = Math.max(0, Math.min(300, percent)); // 限制在0-300%范围内
@@ -307,11 +315,11 @@ const VolumePanel = () => {
             <span class="text-sm text-gray-600">%</span>
           </div>
         </div>
-
+        
         <div class="mt-4 pt-3 border-t border-gray-200">
           <div class="flex items-center justify-between">
             <p class="text-sm text-gray-600">控制模式:</p>
-            <button
+            <button 
               onClick={toggleControlMode}
               class="px-2 py-1 text-xs rounded bg-blue-100 hover:bg-blue-200 text-blue-800"
             >
@@ -319,8 +327,8 @@ const VolumePanel = () => {
             </button>
           </div>
           <p class="text-xs text-gray-500 mt-1">
-            {controlMode() === 'modern'
-              ? '现代模式使用Web Audio API，支持更精确的音量控制'
+            {controlMode() === 'modern' 
+              ? '现代模式使用Web Audio API，支持更精确的音量控制' 
               : '传统模式直接控制媒体元素音量，兼容性更好'}
           </p>
         </div>
@@ -342,7 +350,7 @@ GM_registerMenuCommand('切换音量控制模式', () => {
 
   audioController.toggleControlMode();
   setControlMode(audioController.getControlMode());
-
+  
   // 显示当前模式的通知
   const modeName = audioController.getControlMode() === 'modern' ? '现代模式 (Web Audio API)' : '传统模式 (直接控制)';
   if (typeof GM_notification === 'function') {
@@ -356,4 +364,3 @@ GM_registerMenuCommand('切换音量控制模式', () => {
   }
 });
 render(() => <VolumePanel />, document.body);
-
