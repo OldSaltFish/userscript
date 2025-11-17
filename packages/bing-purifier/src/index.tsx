@@ -1,5 +1,6 @@
 import { render } from "solid-js/web";
 import 'uno.css';
+import './style.css';
 import { getStorage } from "./utils";
 import Dialog from "./components/Dialog";
 import { createSignal, Show } from "solid-js";
@@ -8,6 +9,7 @@ const userConfig: GMStorage = getStorage();
 let count = 0;
 const [isDialogOpen, setIsDialogOpen] = createSignal(false)
 const [blockList, setBlockList] = createSignal<string[]>([])
+const [newSite, setNewSite] = createSignal('')
 function filterWithEngine() {
   if (!userConfig.filterList) return;
   let url = new URL(window.location.href);
@@ -150,10 +152,10 @@ function blockSearchResult() {
     hideAds()
   }
   // 接受domain参数
-  const blockBtn = (domain: string) => {
+  const BlockBtn = (domain: string) => {
     return (
       <button
-      // 小一些，不要这么显眼
+        // 小一些，不要这么显眼
         class="ds-block-btn ml-2px px-2 py-1 text-xs bg-gray-500 text-white rounded hover:bg-gray-600 transition-colors"
         onClick={() => {
           if (!userConfig.blockList?.includes('/' + domain)) {
@@ -165,6 +167,16 @@ function blockSearchResult() {
         }}>屏蔽当前站点</button>
     )
   }
+  const BlockEditBtn = (domain: string) => {
+    return (
+      <button
+        class="ds-block-edit-btn ml-2px px-2 py-1 text-xs bg-gray-500 text-white rounded hover:bg-gray-600 transition-colors"
+        onClick={() => {
+          setIsDialogOpen(true);
+          setNewSite('/' + domain);
+        }}>编辑添加</button>
+    )
+  }
   function addBlockBtn() {
     const links = document.querySelectorAll('.tilk') as NodeListOf<HTMLAnchorElement>;
     links.forEach(item => {
@@ -172,8 +184,11 @@ function blockSearchResult() {
       const parent = item.parentElement;
       const existingBtn = parent?.querySelector('.ds-block-btn');
       if (existingBtn) return; // 已经存在按钮则不添加
-      const btn = blockBtn(domain);
-      render(() => btn, parent!);
+      render(()=>BlockBtn(domain), parent!);
+      const bCaption = parent?.parentElement?.querySelector('.b_caption')
+      if(bCaption){
+        render(()=>BlockEditBtn(domain), bCaption);
+      }
     });
   }
   function removeGlobalList(regex: string[]) {
@@ -238,7 +253,7 @@ function blockSearchResult() {
 import Toast, { showToast } from './components/Toast';
 
 const AddDialog = () => {
-  const [newSite, setNewSite] = createSignal('')
+
   const [editIndex, setEditIndex] = createSignal(-1)
   const [editSite, setEditSite] = createSignal('')
 
@@ -411,7 +426,7 @@ const ExtraSearchBox = () => {
 
 const dclHandler = () => {
   blockSearchResult();
-  const fa1 = document.querySelector('#b_tween');
+  const fa1 = document.querySelector('#b_tween') || document.querySelector('#ScopeRow');
   if (fa1) {
     render(() => <App />, fa1);
   }

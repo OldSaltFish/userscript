@@ -1,0 +1,22 @@
+li.b_ans.b_vidAns {
+  display: none;
+}
+
+.b_inline_ajax_rs {
+  display: none;
+}
+
+li.b_pag:not(:last-child) {
+  display: none;
+}
+
+div.b_tpcn {
+  justify-content: space-between;
+}
+.tilk{
+  min-width: 0;
+}
+/* 多余的侧边内容，会使得高度异常 */
+aside{
+  display: none;
+}
